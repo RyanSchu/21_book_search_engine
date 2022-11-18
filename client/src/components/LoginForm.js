@@ -30,12 +30,12 @@ const LoginForm = () => {
       const response = await loginUser({
         variables: {...userFormData}
         });
+      console.log('response',response)
 
-
-      const { token, user } = response
+      const { token, user } = response.data.login
       Auth.login(token);
     } catch (err) {
-      console.error(JSON.stringify(err,null,2));
+      console.error('here',JSON.stringify(err,null,2));
       setShowAlert(true);
     }
 
