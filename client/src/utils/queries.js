@@ -7,7 +7,6 @@ export const QUERY_USERS = gql`
       username
       email
       bookCount
-      savedBooks
     }
   }
 `;
@@ -19,7 +18,6 @@ export const QUERY_SINGLE_USER = gql`
       username
       email
       bookCount
-      savedBooks
     }
   }
 `;
@@ -31,7 +29,6 @@ export const QUERY_ME = gql`
       username
       email
       bookCount
-      savedBooks
     }
   }
 `;

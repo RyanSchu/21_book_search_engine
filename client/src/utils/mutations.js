@@ -14,13 +14,12 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_BOOK = gql`
-  mutation saveBook($authors: [String]!, $description: String!, $title: String!, $bookId: String!, $link: String!) {
-    saveBook(authors: $authors, description: $description, title: $title, bookId: $bookId, link: $link) {
+  mutation saveBook($authors: [String]!, $description: String!, $title: String!, $bookId: String!) {
+    saveBook(authors: $authors, description: $description, title: $title, bookId: $bookId) {
       _id
       username
       email
       bookCount
-      savedBooks
     }
   }
 `;
