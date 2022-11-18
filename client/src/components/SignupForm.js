@@ -34,7 +34,7 @@ const SignupForm = () => {
       const response = await createUser({
         variables: {...userFormData}
       });
-      console.log(response)
+      // console.log(response)
 
       const { token, user } = response
       console.log(user);
