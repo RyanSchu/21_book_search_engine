@@ -63,9 +63,8 @@ const resolvers = {
           },
           {
             new: true,
-            runValidators: true,
           }
-        );      }
+        );}
       throw new AuthenticationError('You need to be logged in!');
     },
   },
