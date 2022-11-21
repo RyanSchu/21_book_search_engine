@@ -32,8 +32,8 @@ const SavedBooks = () => {
         variables: {bookId: bookId}
       });
       console.log(response)
-      likedBooks.filter(object => object.bookId !== bookId)
-      setLikedBooks(likedBooks)
+      const updatedBooks = likedBooks.filter(object => object.bookId !== bookId)
+      setLikedBooks(updatedBooks)
       removeBookId(bookId)
     } catch (err) {
       console.error('here',JSON.stringify(err,null,2));
