@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries'
 import { REMOVE_BOOK } from '../utils/mutations'
 
 const SavedBooks = () => {
+  const [likedBooks, setLikedBooks] = useState([]);
+  const { loading,error,data } = useQuery(QUERY_ME, 
+    {onCompleted: (data) =>
+      {
+        setLikedBooks(data.me.savedBooks)
+      }
+    })
+  const [deleteBook, {deleteError, deleteLoading}] = useMutation(REMOVE_BOOK)
 
-  const { loading,error,data } = useQuery(QUERY_ME)
-  const [deleteBook] = useMutation(REMOVE_BOOK)
+
+  if(loading) {
+    return(<h2>Loading...</h2>)
+  }
   
-
+  console.log(likedBooks)
   const userData = data?.me
 
 
@@ -22,14 +31,10 @@ const SavedBooks = () => {
       const response = await deleteBook({
         variables: {bookId: bookId}
       });
-
-      if (!response) {
-        throw new Error('something went wrong!');
-      }
       console.log(response)
-      // const updatedUser 
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      likedBooks.filter(object => object.bookId !== bookId)
+      setLikedBooks(likedBooks)
+      removeBookId(bookId)
     } catch (err) {
       console.error('here',JSON.stringify(err,null,2));
     }
@@ -43,6 +48,7 @@ const SavedBooks = () => {
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
           <h1>Viewing saved books!</h1>
+          <h1>Please refresh to view edits.</h1>
         </Container>
       </Jumbotron>
  
@@ -56,7 +62,8 @@ const SavedBooks = () => {
               : 'You have no saved books!'}
             </h2>
                   <CardColumns>
-                  {userData.savedBooks.map((book) => {
+                  {likedBooks.map((book) => {
+
                     return (
                       <Card key={book.bookId} border='dark'>
                         {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
@@ -64,7 +71,7 @@ const SavedBooks = () => {
                           <Card.Title>{book.title}</Card.Title>
                           <p className='small'>Authors: {book.authors}</p>
                           <Card.Text>{book.description}</Card.Text>
-                          <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
+                          <Button className='btn-block btn-danger' onClick={() => {handleDeleteBook(book.bookId)}}>
                             Delete this Book!
                           </Button>
                         </Card.Body>
