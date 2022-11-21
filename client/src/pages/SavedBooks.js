@@ -68,7 +68,6 @@ const SavedBooks = () => {
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
           <h1>Viewing saved books!</h1>
-          <h1>I can't figure out how to get this part to remove the whole card on delete and refreshing the page on heroku throws an error. If you navigate back to the search books, refresh, and then come back to here you will see any deletes you make.</h1>
         </Container>
       </Jumbotron>
  
